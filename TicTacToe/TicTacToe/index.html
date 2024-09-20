@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="jquery-1.12.3.min.js"></script>
+    <script src="tictactoe.js"></script>
+</head>
+<body>
+    <table id="gameBoard">
+        <!-- Create a 3x3 grid -->
+        <tr>
+            <td><input type="text" id="cell-0" readonly></td>
+            <td><input type="text" id="cell-1" readonly></td>
+            <td><input type="text" id="cell-2" readonly></td>
+        </tr>
+        <tr>
+            <td><input type="text" id="cell-3" readonly></td>
+            <td><input type="text" id="cell-4" readonly></td>
+            <td><input type="text" id="cell-5" readonly></td>
+        </tr>
+        <tr>
+            <td><input type="text" id="cell-6" readonly></td>
+            <td><input type="text" id="cell-7" readonly></td>
+            <td><input type="text" id="cell-8" readonly></td>
+        </tr>
+    </table>
+
+    <button id="whoWonButton">Who won?</button>
+    <p id="result"></p>
+    <div id="history"></div>
+
+    <script>
+        $(document).ready(function() {
+            const game = TicTacToeGame();
+            const history = [];
+
+            // Handle player clicking on a cell
+            $("td input").on("click", function() {
+                const index = $(this).attr("id").split('-')[1];
+                if (game.takeTurn(index)) {
+                    $(this).val(game.getGrid()[index]);  // Update UI
+                }
+            });
+
+            // Handle "Who won?" button click
+            $("#whoWonButton").on("click", function() {
+                const result = game.checkWinner();
+                $("#result").text(result);
+                history.push(result);
+                $("#history").append(`<p>${result}</p>`);
+            });
+        });
+    </script>
+</body>
+</html>
